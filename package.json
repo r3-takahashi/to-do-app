@@ -1,0 +1,34 @@
+{
+  "name": "to-do-app",
+  "version": "1.0.0",
+  "description": "## プロジェクト目的",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "knex migrate:latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/r3-takahashi/to-do-app.git"
+  },
+  "author": "r3-takahashi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/r3-takahashi/to-do-app/issues"
+  },
+  "homepage": "https://github.com/r3-takahashi/to-do-app#readme",
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "eslint": "^8.27.0",
+    "mocha": "^10.1.0",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.7.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "knex": "^2.3.0",
+    "pg": "^8.8.0",
+    "underscore": "^1.13.6"
+  }
+}

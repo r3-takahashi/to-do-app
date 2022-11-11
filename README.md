@@ -5,6 +5,11 @@
 - todo リストを作成、更新、削除するアプリを作成する
 - （余裕があれば）ユーザ別に登録できるようにする
 
+## 環境構築
+
+- 本リポジトリをクローンし、npm install で必要なパッケージをインストールする
+- 各起動コマンドは package.json の scripts を参照すること
+
 ## API 仕様
 
 ### 前提
@@ -51,6 +56,7 @@
 - migration ファイル
 
   - `db/migrations/配下`のファイルを参照すること
+  - table 構築する際は`npm run migrate`を実行する
 
 - tasks
   - タスクを管理するテーブル
@@ -64,9 +70,9 @@
   - end_date
     - タスク終了期限日
     - date
-  - create_at
+  - created_at
     - データ登録日
     - date
-  - update_at
+  - updated_at
     - データ更新日
     - date
