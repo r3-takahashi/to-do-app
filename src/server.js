@@ -47,6 +47,27 @@ const setupExpressServer = () => {
       });
   });
 
+  app.delete("/tasks", (req, res) => {
+    knex
+      .where({ id: req.body.id })
+      .from("tasks")
+      .del()
+      .then(() => {
+        knex
+          .select({
+            id: "id",
+            task: "task",
+            endDate: "end_date",
+            createdAt: "created_at",
+            updatedAt: "updated_at",
+          })
+          .from("tasks")
+          .then((result) => {
+            res.send(result);
+          });
+      });
+  });
+
   return app;
 };
 
