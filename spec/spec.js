@@ -87,7 +87,7 @@ describe("The express server", () => {
         updatedAt: "2022-11-01"
       };
 
-      // 初期状態のDBレコード件数確認
+      // テスト前のDBレコード件数確認
       const beforeInsertData = await request.get("/tasks");
       const beforeInsertDataLength = JSON.parse(beforeInsertData.text).length;
 
@@ -122,11 +122,12 @@ describe("The express server", () => {
       const res = await request.put("/tasks").send(putData);
       let updatedTaskData = {};
       for (const i in JSON.parse(res.text)) {
-        if (JSON.parse(res.text)[i].id === 1)
-        updatedTaskData.id = JSON.parse(res.text)[i].id;
-        updatedTaskData.task = JSON.parse(res.text)[i].task;
-        updatedTaskData.endDate = JSON.parse(res.text)[i].endDate;
-        updatedTaskData.updatedAt = JSON.parse(res.text)[i].updatedAt;
+        if (JSON.parse(res.text)[i].id === 1) {
+          updatedTaskData.id = JSON.parse(res.text)[i].id;
+          updatedTaskData.task = JSON.parse(res.text)[i].task;
+          updatedTaskData.endDate = JSON.parse(res.text)[i].endDate;
+          updatedTaskData.updatedAt = JSON.parse(res.text)[i].updatedAt;            
+        }
       }
       updatedTaskData.id.should.equal(putData.id);
       updatedTaskData.task.should.equal(putData.task);

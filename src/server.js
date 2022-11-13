@@ -8,19 +8,7 @@ const setupExpressServer = () => {
   app.use(express.json());
 
   app.get("/tasks", (req, res) => {
-    knex
-      .select({
-        id: "id",
-        task: "task",
-        endDate: knex.raw("to_char(end_date, 'yyyy-mm-dd')"),
-        createdAt: knex.raw("to_char(created_at, 'yyyy-mm-dd')"),
-        updatedAt: knex.raw("to_char(updated_at, 'yyyy-mm-dd')"),
-      })
-      .orderBy("id")
-      .from("tasks")
-      .then((result) => {
-        res.send(result);
-      });
+    selectAllData().then((result) => res.send(result));
   });
 
   app.post("/tasks", (req, res) => {
@@ -33,18 +21,7 @@ const setupExpressServer = () => {
       })
       .into("tasks")
       .then(() => {
-        knex
-          .select({
-            id: "id",
-            task: "task",
-            endDate: knex.raw("to_char(end_date, 'yyyy-mm-dd')"),
-            createdAt: knex.raw("to_char(created_at, 'yyyy-mm-dd')"),
-            updatedAt: knex.raw("to_char(updated_at, 'yyyy-mm-dd')"),
-          })
-          .from("tasks")
-          .then((result) => {
-            res.send(result);
-          });
+        selectAllData().then((result) => res.send(result));
       });
   });
 
@@ -54,18 +31,7 @@ const setupExpressServer = () => {
       .from("tasks")
       .del()
       .then(() => {
-        knex
-          .select({
-            id: "id",
-            task: "task",
-            endDate: knex.raw("to_char(end_date, 'yyyy-mm-dd')"),
-            createdAt: knex.raw("to_char(created_at, 'yyyy-mm-dd')"),
-            updatedAt: knex.raw("to_char(updated_at, 'yyyy-mm-dd')"),
-          })
-          .from("tasks")
-          .then((result) => {
-            res.send(result);
-          });
+        selectAllData().then((result) => res.send(result));
       });
   });
 
@@ -78,22 +44,24 @@ const setupExpressServer = () => {
         updated_at: req.body.updatedAt,
       })
       .then(() => {
-        knex
-          .select({
-            id: "id",
-            task: "task",
-            endDate: knex.raw("to_char(end_date, 'yyyy-mm-dd')"),
-            createdAt: knex.raw("to_char(created_at, 'yyyy-mm-dd')"),
-            updatedAt: knex.raw("to_char(updated_at, 'yyyy-mm-dd')"),
-          })
-          .from("tasks")
-          .then((result) => {
-            res.send(result);
-          });
+        selectAllData().then((result) => res.send(result));
       });
   });
 
   return app;
 };
+
+function selectAllData() {
+  return knex
+    .select({
+      id: "id",
+      task: "task",
+      endDate: knex.raw("to_char(end_date, 'yyyy-mm-dd')"),
+      createdAt: knex.raw("to_char(created_at, 'yyyy-mm-dd')"),
+      updatedAt: knex.raw("to_char(updated_at, 'yyyy-mm-dd')"),
+    })
+    .orderBy("id")
+    .from("tasks");
+}
 
 module.exports = setupExpressServer;
