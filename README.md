@@ -59,20 +59,10 @@
   - table 構築する際は`npm run migrate`を実行する
 
 - tasks
-  - タスクを管理するテーブル
-  - id
-    - タスクを一意に特定する主キー
-    - データ登録時にシステムで自動採番する
-    - index
-  - task
-    - タスクの中身
-    - string
-  - end_date
-    - タスク終了期限日
-    - date
-  - created_at
-    - データ登録日
-    - date
-  - updated_at
-    - データ更新日
-    - date
+  | 項目名 | 型 | 桁数 | 概要 |
+  | ---------- | ------ | ---- | ---------------------------- |
+  | id | int | | タスクを一意に特定する主キー<br>データ登録時に自動採番される |
+  | task | string | 255 | タスクの内容 |
+  | end_date | date | | タスク終了期限 |
+  | created_at | date | | データ登録日 |
+  | updated_at | date | | データ更新日 |

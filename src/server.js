@@ -12,10 +12,11 @@ const setupExpressServer = () => {
       .select({
         id: "id",
         task: "task",
-        endDate: "end_date",
-        createdAt: "created_at",
-        updatedAt: "updated_at",
+        endDate: knex.raw("to_char(end_date, 'yyyy-mm-dd')"),
+        createdAt: knex.raw("to_char(created_at, 'yyyy-mm-dd')"),
+        updatedAt: knex.raw("to_char(updated_at, 'yyyy-mm-dd')"),
       })
+      .orderBy("id")
       .from("tasks")
       .then((result) => {
         res.send(result);
@@ -36,9 +37,9 @@ const setupExpressServer = () => {
           .select({
             id: "id",
             task: "task",
-            endDate: "end_date",
-            createdAt: "created_at",
-            updatedAt: "updated_at",
+            endDate: knex.raw("to_char(end_date, 'yyyy-mm-dd')"),
+            createdAt: knex.raw("to_char(created_at, 'yyyy-mm-dd')"),
+            updatedAt: knex.raw("to_char(updated_at, 'yyyy-mm-dd')"),
           })
           .from("tasks")
           .then((result) => {
@@ -57,9 +58,33 @@ const setupExpressServer = () => {
           .select({
             id: "id",
             task: "task",
-            endDate: "end_date",
-            createdAt: "created_at",
-            updatedAt: "updated_at",
+            endDate: knex.raw("to_char(end_date, 'yyyy-mm-dd')"),
+            createdAt: knex.raw("to_char(created_at, 'yyyy-mm-dd')"),
+            updatedAt: knex.raw("to_char(updated_at, 'yyyy-mm-dd')"),
+          })
+          .from("tasks")
+          .then((result) => {
+            res.send(result);
+          });
+      });
+  });
+
+  app.put("/tasks", (req, res) => {
+    knex("tasks")
+      .where("id", "=", req.body.id)
+      .update({
+        task: req.body.task,
+        end_date: req.body.endDate,
+        updated_at: req.body.updatedAt,
+      })
+      .then(() => {
+        knex
+          .select({
+            id: "id",
+            task: "task",
+            endDate: knex.raw("to_char(end_date, 'yyyy-mm-dd')"),
+            createdAt: knex.raw("to_char(created_at, 'yyyy-mm-dd')"),
+            updatedAt: knex.raw("to_char(updated_at, 'yyyy-mm-dd')"),
           })
           .from("tasks")
           .then((result) => {

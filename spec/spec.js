@@ -17,28 +17,42 @@ describe("The express server", () => {
     request = chai.request(app).keepOpen();
   });
 
-  describe("GET /tasks return tasks", () => {
-    before(async () => {
-      await knex.from("tasks").where('id', '>', 2).del().catch(console.error);
-      await knex.raw("SELECT setval('tasks_id_seq', 2)")  
-    })
+  before(async () => {
+    await knex.from("tasks").del().catch(console.error);
+    await knex.raw("SELECT setval('tasks_id_seq', 1, false)");
+    await knex("tasks").insert([
+      {
+        task: "test",
+        end_date: "2022-11-11",
+        created_at: "2022-11-01",
+        updated_at: "2022-11-10",
+      },
+      {
+        task: "Hi!!",
+        end_date: "2022-11-11",
+        created_at: "2022-11-01",
+        updated_at: "2022-11-10",
+      }
+    ]);
+  });
 
-    it("should return all tasks", async () => {
+  describe("GET /tasks return tasks", () => {
+    it("should return all tasks", async () => {      
       const res = await request.get("/tasks");
       res.body.should.deep.ordered.members([
         {
           "id": 1,
           "task": "test",
-          "endDate": "2022-11-10T15:00:00.000Z",
-          "createdAt": "2022-10-31T15:00:00.000Z",
-          "updatedAt": "2022-11-09T15:00:00.000Z",
+          "endDate": "2022-11-11",
+          "createdAt": "2022-11-01",
+          "updatedAt": "2022-11-10",
         },
         {
           "id": 2,
           "task": "Hi!!",
-          "endDate": "2022-11-10T15:00:00.000Z",
-          "createdAt": "2022-10-31T15:00:00.000Z",
-          "updatedAt": "2022-11-09T15:00:00.000Z",
+          "endDate": "2022-11-11",
+          "createdAt": "2022-11-01",
+          "updatedAt": "2022-11-10",
         }
       ]);
     });
@@ -52,14 +66,13 @@ describe("The express server", () => {
 
       const expected = {
         task: "POST test",
-        endDate: "2022-11-10T15:00:00.000Z",
-        createdAt: "2022-11-10T15:00:00.000Z",
-        updatedAt: "2022-11-10T15:00:00.000Z"
+        endDate: "2022-11-01",
+        createdAt: "2022-11-01",
+        updatedAt: "2022-11-01"
       }
 
       // POST実行
       const resInsert = await request.post("/tasks").send(expected);
-      console.log("afterPOST:", JSON.parse(resInsert.text));
       JSON.parse(resInsert.text).length.should.equal(countBeforeInsertData + 1);
       JSON.parse(resInsert.text)[countBeforeInsertData].task.should.include(expected.task);
     })
@@ -69,9 +82,9 @@ describe("The express server", () => {
     it("should delete data when given id match tasks's id", async () => {
       const insertData = {
         task: "DELETE test",
-        endDate: "2022-11-10T15:00:00.000Z",
-        createdAt: "2022-11-10T15:00:00.000Z",
-        updatedAt: "2022-11-10T15:00:00.000Z"
+        endDate: "2022-11-01",
+        createdAt: "2022-11-01",
+        updatedAt: "2022-11-01"
       };
 
       // 初期状態のDBレコード件数確認
@@ -92,6 +105,33 @@ describe("The express server", () => {
         dataId.push(JSON.parse(afterDeleteData.text)[i].id);
       };
       dataId.should.not.include(insertId);
+    })
+  })
+
+  describe("PUT /tasks update data by given data when id match", () => {
+    it("should update task, end_date, updated_at", async () => {
+      putData = {
+        id: 1,
+        task: "PUT test",
+        endDate: "2022-12-31",
+        updatedAt: "2022-12-01"
+      };
+
+      const beforeUpdateData = await request.get("/tasks");
+      
+      const res = await request.put("/tasks").send(putData);
+      let updatedTaskData = {};
+      for (const i in JSON.parse(res.text)) {
+        if (JSON.parse(res.text)[i].id === 1)
+        updatedTaskData.id = JSON.parse(res.text)[i].id;
+        updatedTaskData.task = JSON.parse(res.text)[i].task;
+        updatedTaskData.endDate = JSON.parse(res.text)[i].endDate;
+        updatedTaskData.updatedAt = JSON.parse(res.text)[i].updatedAt;
+      }
+      updatedTaskData.id.should.equal(putData.id);
+      updatedTaskData.task.should.equal(putData.task);
+      updatedTaskData.endDate.should.equal(putData.endDate);
+      updatedTaskData.updatedAt.should.equal(putData.updatedAt);
     })
   })
 });
