@@ -22,8 +22,8 @@
 
 ### POST /tasks
 
-- body で連携されたデータを DB に登録する
-- body 形式は json 形式で以下の項目を設定する
+- body で連携されたタスクを DB に登録する
+- body 形式は json 形式で以下の項目を設定すること
   - task : string(255)
   - end_date : yyyy-mm-dd
   - created_at : yyyy-mm-dd
@@ -31,14 +31,16 @@
 
 ### DELETE /tasks
 
-- クエリパラメータで連携された ID をキーに DB に登録されているデータを削除する
-- ID は{ "id": "`id`"}の形式で連携する
+- bodyで連携された ID をキーに DB に登録されているタスクを削除する
+- bodyはjson形式で以下の項目を設定すること
+  - id : int
 
 ### PUT /tasks
 
-- クエリパラメータで連携された ID をキーに DB に登録されているデータを更新する
-- 更新データは body で連携する
-  - id : string(255)
+- bodyで連携された ID をキーに DB に登録されているタスクを更新する
+- bodyはjson形式で以下の項目を設定すること
+  - id : int
+  - task : string(255)
   - end_date : yyyy-mm-dd
 
 <!-- ### PATCH /tasks
