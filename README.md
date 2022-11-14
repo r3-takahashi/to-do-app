@@ -19,22 +19,40 @@
 ### GET /tasks
 
 - DB に登録されているタスクを全件取得する
-
-### POST /tasks
-
-- body で連携されたタスクを DB に登録する
-- body 形式は json 形式で以下の項目を設定すること
+- responseは以下の項目をjson形式で返却する
+  - id : int
   - task : string(255)
   - end_date : yyyy-mm-dd
   - created_at : yyyy-mm-dd
   - updated_at : yyyy-mm-dd
+  
+### POST /tasks
 
+- body で連携されたタスクを DB に登録する
+- body は json 形式で以下の項目を設定すること
+  - task : string(255)
+  - end_date : yyyy-mm-dd
+  - created_at : yyyy-mm-dd
+  - updated_at : yyyy-mm-dd
+- responseはデータ登録後のDBに登録されているデータ全件をjson形式で返却する
+  - id : int
+  - task : string(255)
+  - end_date : yyyy-mm-dd
+  - created_at : yyyy-mm-dd
+  - updated_at : yyyy-mm-dd
+  
 ### DELETE /tasks
 
 - bodyで連携された ID をキーに DB に登録されているタスクを削除する
 - bodyはjson形式で以下の項目を設定すること
   - id : int
-
+- responseは削除後のDBに登録されているデータ全件をjson形式で返却する
+  - id : int
+  - task : string(255)
+  - end_date : yyyy-mm-dd
+  - created_at : yyyy-mm-dd
+  - updated_at : yyyy-mm-dd
+  
 ### PUT /tasks
 
 - bodyで連携された ID をキーに DB に登録されているタスクを更新する
@@ -42,6 +60,12 @@
   - id : int
   - task : string(255)
   - end_date : yyyy-mm-dd
+- responseは更新後のDBに登録されているデータ全件をjson形式で返却する
+  - id : int
+  - task : string(255)
+  - end_date : yyyy-mm-dd
+  - created_at : yyyy-mm-dd
+  - updated_at : yyyy-mm-dd
 
 <!-- ### PATCH /tasks
 
