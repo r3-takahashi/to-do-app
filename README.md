@@ -41,11 +41,9 @@
   - created_at : yyyy-mm-dd
   - updated_at : yyyy-mm-dd
   
-### DELETE /tasks
+### DELETE /tasks/:id
 
-- bodyで連携された ID をキーに DB に登録されているタスクを削除する
-- bodyはjson形式で以下の項目を設定すること
-  - id : int
+- クエリパラメータで連携された ID をキーに DB に登録されているタスクを削除する
 - responseは削除後のDBに登録されているデータ全件をjson形式で返却する
   - id : int
   - task : string(255)
@@ -53,11 +51,10 @@
   - created_at : yyyy-mm-dd
   - updated_at : yyyy-mm-dd
   
-### PUT /tasks
+### PUT /tasks/:id
 
-- bodyで連携された ID をキーに DB に登録されているタスクを更新する
-- bodyはjson形式で以下の項目を設定すること
-  - id : int
+- クエリパラメータで連携された ID をキーに DB に登録されているタスクを更新する
+- 更新するデータはjson形式で以下の項目を設定すること
   - task : string(255)
   - end_date : yyyy-mm-dd
 - responseは更新後のDBに登録されているデータ全件をjson形式で返却する
